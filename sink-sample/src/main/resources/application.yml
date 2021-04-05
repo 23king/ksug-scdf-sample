@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    stream:
+      function:
+        bindings:
+          messageSink-in-0: input

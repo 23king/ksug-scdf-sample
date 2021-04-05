@@ -1,0 +1,6 @@
+rootProject.name = 'ksug-scdf-sample'
+include 'source-sample'
+include 'processor-sample'
+include 'sink-sample'
+include 'deno'
+

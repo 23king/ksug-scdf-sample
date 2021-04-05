@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+}
+
+group 'com.ksug'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+tasks.jib.enabled = true
+tasks.jibDockerBuild.enabled = true
+
+jib.from.image = "registry.access.redhat.com/openjdk/openjdk-11-rhel7"
+jib.container.environment = ["TZ": "Asia/Seoul"]
+jib.container.jvmFlags = ["-Djava.security.egd=file:/dev/./urandom", "-Dfile.encoding=UTF-8", "-Xms1024m", "-XX:+UseG1GC"]
+jib.container.useCurrentTimestamp = true
+jib.to {
+    image = "ssamzie101/ksug-sample-sink:0.0.1"
+    tags = ["latest"]
+    auth {
+        username = '####'
+        password = '####'
+    }
+}
+
+task pushImage {
+    dependsOn tasks.clean
+    dependsOn tasks.build
+    dependsOn tasks.jib
+    tasks.build.mustRunAfter 'clean'
+    tasks.jib.mustRunAfter 'build'
+}

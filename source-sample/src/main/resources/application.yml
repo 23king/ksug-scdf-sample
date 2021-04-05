@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    stream:
+      function:
+        bindings:
+          message-out-0: output
